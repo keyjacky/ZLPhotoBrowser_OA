@@ -293,7 +293,7 @@
 				TargetAttributes = {
 					FD07871C1C0D45A200D17B97 = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = 47UY3G7UH6;
+						DevelopmentTeam = 25F3RKJN6L;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -545,11 +545,11 @@
 			baseConfigurationReference = C219308794659F498CBCB00A /* Pods-ZLPhotoBrowser.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 47UY3G7UH6;
+				DEVELOPMENT_TEAM = 25F3RKJN6L;
 				INFOPLIST_FILE = ZLPhotoBrowser/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ZL.ABCD;
+				PRODUCT_BUNDLE_IDENTIFIER = ZL.ABCD.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -560,11 +560,11 @@
 			baseConfigurationReference = 562538332CF28C3D81959D16 /* Pods-ZLPhotoBrowser.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 47UY3G7UH6;
+				DEVELOPMENT_TEAM = 25F3RKJN6L;
 				INFOPLIST_FILE = ZLPhotoBrowser/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ZL.ABCD;
+				PRODUCT_BUNDLE_IDENTIFIER = ZL.ABCD.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
