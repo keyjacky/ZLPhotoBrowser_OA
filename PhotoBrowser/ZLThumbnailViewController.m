@@ -56,6 +56,8 @@ typedef NS_ENUM(NSUInteger, SlideSelectType) {
 @property (nonatomic, strong) NSMutableArray<NSIndexPath *> *arrSlideIndexPath;
 /**所有滑动经过的indexPath的初始选择状态*/
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSNumber *> *dicOriSelectStatus;
+
+@property (nonatomic, strong) NSMutableArray *selectedCellIndexPaths;
 @end
 
 @implementation ZLThumbnailViewController
@@ -64,6 +66,13 @@ typedef NS_ENUM(NSUInteger, SlideSelectType) {
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 //    NSLog(@"---- %s", __FUNCTION__);
+}
+
+- (NSMutableArray *)selectedCellIndexPaths {
+    if (!_selectedCellIndexPaths) {
+        _selectedCellIndexPaths = [NSMutableArray array];
+    }
+    return _selectedCellIndexPaths;
 }
 
 - (NSMutableArray<ZLPhotoModel *> *)arrDataSources
@@ -126,6 +135,9 @@ typedef NS_ENUM(NSUInteger, SlideSelectType) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    ZLImageNavigationController *nav = (ZLImageNavigationController *)self.navigationController;
+    [nav.arrSelectedModels removeAllObjects];
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = self.albumListModel.title;
@@ -378,7 +390,7 @@ typedef NS_ENUM(NSUInteger, SlideSelectType) {
     [self.btnDone setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
     [self.btnDone setTitle:GetLocalLanguageTextValue(ZLPhotoBrowserDoneText) forState:UIControlStateNormal];
     self.btnDone.layer.masksToBounds = YES;
-    self.btnDone.layer.cornerRadius = 3.0f;
+    self.btnDone.layer.cornerRadius = 15.0f;
     [self.btnDone addTarget:self action:@selector(btnDone_Click:) forControlEvents:UIControlEventTouchUpInside];
     [self.bottomView addSubview:self.btnDone];
 }
@@ -429,6 +441,7 @@ typedef NS_ENUM(NSUInteger, SlideSelectType) {
     ZLShowBigImgViewController *vc = [[ZLShowBigImgViewController alloc] init];
     vc.models = data.copy;
     vc.selectIndex = index;
+    vc.hideToolBar = YES;
     zl_weakify(self);
     [vc setBtnBackBlock:^(NSArray<ZLPhotoModel *> *selectedModels, BOOL isOriginal) {
         zl_strongify(weakSelf);
@@ -689,21 +702,45 @@ typedef NS_ENUM(NSUInteger, SlideSelectType) {
                     [weakNav.arrSelectedModels addObject:model];
                     strongCell.btnSelect.selected = YES;
                     [strongSelf shouldDirectEdit:model];
+                    [self.selectedCellIndexPaths addObject:indexPath];
+                    model.selectIndex = weakNav.arrSelectedModels.count;
+                    strongCell.model = model;
+                    if (weakNav.arrSelectedModels.count == configuration.maxSelectCount) {
+                        configuration.showSelectedMask = YES;
+                        [collectionView reloadData];
+                    }
                 }
             }
         } else {
             strongCell.btnSelect.selected = NO;
             model.selected = NO;
+            NSInteger deletedIndex = -1;
             for (ZLPhotoModel *m in weakNav.arrSelectedModels) {
                 if ([m.asset.localIdentifier isEqualToString:model.asset.localIdentifier]) {
+                    deletedIndex = [weakNav.arrSelectedModels indexOfObject:m];
                     [weakNav.arrSelectedModels removeObject:m];
+                    [self.selectedCellIndexPaths removeObject:indexPath];
                     break;
                 }
             }
+            strongCell.model = model;
+            for (NSIndexPath *indexPath in self.selectedCellIndexPaths) {
+                ZLCollectionCell *cell = (ZLCollectionCell *)[collectionView cellForItemAtIndexPath:indexPath];
+                if (deletedIndex >= 0 && cell.model.selectIndex > deletedIndex) {
+                    ZLPhotoModel *updatedModel = cell.model;
+                    NSInteger updatedSelectIndex = --cell.model.selectIndex;
+                    updatedModel.selectIndex = updatedSelectIndex;
+                    cell.model = updatedModel;
+                }
+            }
+            if (weakNav.arrSelectedModels.count == configuration.maxSelectCount - 1) {
+                configuration.showSelectedMask = NO;
+                [collectionView reloadData];
+            }
         }
-        if (configuration.showSelectedMask) {
-            strongCell.topView.hidden = !model.isSelected;
-        }
+//        if (configuration.showSelectedMask) {
+//            strongCell.topView.hidden = !model.isSelected;
+//        }
         [strongSelf resetBottomBtnsStatus:YES];
     };
     
@@ -714,7 +751,6 @@ typedef NS_ENUM(NSUInteger, SlideSelectType) {
     cell.showMask = configuration.showSelectedMask;
     cell.maskColor = configuration.selectedMaskColor;
     cell.model = model;
-
     return cell;
 }
 
@@ -734,6 +770,12 @@ typedef NS_ENUM(NSUInteger, SlideSelectType) {
         index = indexPath.row - 1;
     }
     ZLPhotoModel *model = self.arrDataSources[index];
+    
+    if (configuration.showSelectedMask) {
+        if (!model.isSelected) {
+            return;
+        }
+    }
     
     if ([self shouldDirectEdit:model]) return;
     

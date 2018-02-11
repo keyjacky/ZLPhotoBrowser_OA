@@ -129,13 +129,14 @@
     //是否在已选择照片上显示遮罩层
     actionSheet.configuration.showSelectedMask = self.maskSwitch.isOn;
     //颜色，状态栏样式
-//    actionSheet.configuration.selectedMaskColor = [UIColor purpleColor];
-//    actionSheet.configuration.navBarColor = [UIColor orangeColor];
-//    actionSheet.configuration.navTitleColor = [UIColor blackColor];
+    actionSheet.configuration.selectedMaskColor = [UIColor whiteColor];
+    actionSheet.configuration.navBarColor = [UIColor whiteColor];
+    actionSheet.configuration.navTitleColor = [UIColor blackColor];
 //    actionSheet.configuration.bottomBtnsNormalTitleColor = kRGB(80, 160, 100);
 //    actionSheet.configuration.bottomBtnsDisableBgColor = kRGB(190, 30, 90);
 //    actionSheet.configuration.bottomViewBgColor = [UIColor blackColor];
-//    actionSheet.configuration.statusBarStyle = UIStatusBarStyleDefault;
+    actionSheet.configuration.statusBarStyle = UIStatusBarStyleDefault;
+    actionSheet.configuration.allowSelectOriginal = NO;
     //是否允许框架解析图片
     actionSheet.configuration.shouldAnialysisAsset = self.allowAnialysisAssetSwitch.isOn;
     //框架语言
@@ -160,8 +161,8 @@
         zl_strongify(weakSelf);
         strongSelf.arrDataSources = images;
         strongSelf.isOriginal = isOriginal;
-        strongSelf.lastSelectAssets = assets.mutableCopy;
-        strongSelf.lastSelectPhotos = images.mutableCopy;
+//        strongSelf.lastSelectAssets = assets.mutableCopy;
+//        strongSelf.lastSelectPhotos = images.mutableCopy;
         [strongSelf.collectionView reloadData];
         NSLog(@"image:%@", images);
         //解析图片

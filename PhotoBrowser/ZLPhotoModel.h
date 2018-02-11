@@ -36,6 +36,8 @@ typedef NS_ENUM(NSUInteger, ZLAssetMediaType) {
 //图片
 @property (nonatomic, strong) UIImage *image;
 
+@property (nonatomic, assign) NSUInteger selectIndex;
+
 /**初始化model对象*/
 + (instancetype)modelWithAsset:(PHAsset *)asset type:(ZLAssetMediaType)type duration:(NSString *)duration;
 

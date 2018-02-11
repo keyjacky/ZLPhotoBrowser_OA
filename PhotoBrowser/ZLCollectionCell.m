@@ -32,9 +32,9 @@
     [super layoutSubviews];
     self.imageView.frame = self.bounds;
     self.btnSelect.frame = CGRectMake(GetViewWidth(self.contentView)-26, 5, 23, 23);
-    if (self.showMask) {
+//    if (self.showMask) {
         self.topView.frame = self.bounds;
-    }
+//    }
     self.videoBottomView.frame = CGRectMake(0, GetViewHeight(self)-15, GetViewWidth(self), 15);
     self.videoImageView.frame = CGRectMake(5, 1, 16, 12);
     self.liveImageView.frame = CGRectMake(5, -1, 15, 15);
@@ -63,9 +63,14 @@
     if (!_btnSelect) {
         _btnSelect = [UIButton buttonWithType:UIButtonTypeCustom];
         _btnSelect.frame = CGRectMake(GetViewWidth(self.contentView)-26, 5, 23, 23);
-        [_btnSelect setBackgroundImage:GetImageWithName(@"btn_unselected") forState:UIControlStateNormal];
-        [_btnSelect setBackgroundImage:GetImageWithName(@"btn_selected") forState:UIControlStateSelected];
+//        [_btnSelect setBackgroundImage:GetImageWithName(@"btn_unselected") forState:UIControlStateNormal];
+//        [_btnSelect setBackgroundImage:GetImageWithName(@"btn_selected") forState:UIControlStateSelected];
+        [_btnSelect setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_btnSelect addTarget:self action:@selector(btnSelectClick:) forControlEvents:UIControlEventTouchUpInside];
+        _btnSelect.layer.masksToBounds = YES;
+        _btnSelect.layer.cornerRadius = _btnSelect.frame.size.width / 2.0;
+        _btnSelect.layer.borderWidth = 1.0;
+        _btnSelect.layer.borderColor = [UIColor whiteColor].CGColor;
         //扩大点击区域
         [_btnSelect setEnlargeEdgeWithTop:0 right:0 bottom:20 left:20];
         [self.contentView addSubview:self.btnSelect];
@@ -155,8 +160,10 @@
     }
     
     if (self.showMask) {
-        self.topView.backgroundColor = [self.maskColor colorWithAlphaComponent:.2];
-        self.topView.hidden = !model.isSelected;
+        self.topView.backgroundColor = [self.maskColor colorWithAlphaComponent:.8];
+        self.topView.hidden = model.isSelected;
+    } else {
+        self.topView.hidden = YES;
     }
     
     self.btnSelect.hidden = !self.showSelectBtn;
@@ -184,6 +191,15 @@
             strongSelf.imageRequestID = -1;
         }
     }];
+    
+    if (model.selected) {
+        self.btnSelect.backgroundColor = kRGB(80, 180, 234);
+        self.btnSelect.layer.borderColor = [UIColor clearColor].CGColor;
+    } else {
+        self.btnSelect.backgroundColor = [UIColor clearColor];
+        self.btnSelect.layer.borderColor = [UIColor whiteColor].CGColor;
+    }
+    [self.btnSelect setTitle:[NSString stringWithFormat:@"%ld", model.selectIndex] forState:UIControlStateSelected];
 }
 
 - (void)btnSelectClick:(UIButton *)sender {

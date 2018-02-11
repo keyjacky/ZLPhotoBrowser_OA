@@ -188,6 +188,8 @@
     
     _btnBack = [UIButton buttonWithType:UIButtonTypeCustom];
     [_btnBack setImage:GetImageWithName(@"navBackBtn") forState:UIControlStateNormal];
+//    [_btnBack setTitle:@"返回" forState:UIControlStateNormal];
+//    [_btnBack setTitleColor:configuration.navTitleColor forState:UIControlStateNormal];
     [_btnBack setImageEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 0)];
     [_btnBack addTarget:self action:@selector(btnBack_Click) forControlEvents:UIControlEventTouchUpInside];
     [_navView addSubview:_btnBack];
@@ -280,7 +282,7 @@
     [_btnDone setTitle:GetLocalLanguageTextValue(ZLPhotoBrowserDoneText) forState:UIControlStateNormal];
     _btnDone.titleLabel.font = [UIFont systemFontOfSize:15];
     _btnDone.layer.masksToBounds = YES;
-    _btnDone.layer.cornerRadius = 3.0f;
+    _btnDone.layer.cornerRadius = 15.0f;
     [_btnDone setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_btnDone setBackgroundColor:configuration.bottomBtnsNormalTitleColor];
     _btnDone.frame = CGRectMake(kViewWidth - 82, 7, 70, 30);
