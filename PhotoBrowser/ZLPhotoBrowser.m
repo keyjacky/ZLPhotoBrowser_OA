@@ -15,6 +15,10 @@
 
 @implementation ZLImageNavigationController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return self.configuration.statusBarStyle;
+}
+
 - (void)dealloc
 {
     [[SDWebImageManager sharedManager] cancelAll];
