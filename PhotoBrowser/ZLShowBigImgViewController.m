@@ -113,7 +113,7 @@
     [super viewDidLayoutSubviews];
     
     UIEdgeInsets inset = UIEdgeInsetsMake(20, 0, 0, 0);
-    if (@available(iOS 11, *)) {
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
         inset = self.view.safeAreaInsets;
     }
     _layout.minimumLineSpacing = kItemMargin;

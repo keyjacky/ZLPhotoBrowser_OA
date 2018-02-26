@@ -332,7 +332,7 @@ double const ScalePhotoWidth = 1000;
     }
     
     UIEdgeInsets inset = UIEdgeInsetsZero;
-    if (@available(iOS 11, *)) {
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
         double flag = .0;
         if (self.senderTabBarIsShow) {
             flag = 49;
@@ -356,7 +356,7 @@ double const ScalePhotoWidth = 1000;
 {
     if (self.animate) {
         UIEdgeInsets inset = UIEdgeInsetsZero;
-        if (@available(iOS 11, *)) {
+        if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
             inset = self.sender.view.safeAreaInsets;
         }
         __block CGRect frame = self.baseView.frame;

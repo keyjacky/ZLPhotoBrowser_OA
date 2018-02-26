@@ -141,7 +141,7 @@
 //    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:GetLocalLanguageTextValue(ZLPhotoBrowserBackText) style:UIBarButtonItemStylePlain target:nil action:nil];
     [self initNavBtn];
     
-    if (@available(iOS 11.0, *)) {
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
         [self.tableView setContentInsetAdjustmentBehavior:UIScrollViewContentInsetAdjustmentAlways];
     }
 }

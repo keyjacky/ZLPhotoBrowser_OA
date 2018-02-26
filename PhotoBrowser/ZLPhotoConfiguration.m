@@ -82,7 +82,7 @@
 
 - (void)setAllowSelectLivePhoto:(BOOL)allowSelectLivePhoto
 {
-    if (@available(iOS 9.0, *)) {
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 9.0) {
         _allowSelectLivePhoto = allowSelectLivePhoto;
     } else {
         _allowSelectLivePhoto = NO;

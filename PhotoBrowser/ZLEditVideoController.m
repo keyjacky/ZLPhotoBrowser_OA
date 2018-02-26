@@ -278,7 +278,7 @@
     [super viewDidLayoutSubviews];
     
     UIEdgeInsets inset = UIEdgeInsetsZero;
-    if (@available(iOS 11, *)) {
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
         inset = self.view.safeAreaInsets;
     }
     

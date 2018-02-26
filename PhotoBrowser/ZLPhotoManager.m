@@ -290,7 +290,7 @@ static BOOL _sortAscending;
                 break;
         }
         
-        if (@available(iOS 11, *)) {
+        if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
             //            PHAssetCollectionSubtypeSmartAlbumAnimated 为动图，但是貌似苹果返回的结果有bug，动图的subtype值为 215，即PHAssetCollectionSubtypeSmartAlbumLongExposures
             if (collection.assetCollectionSubtype == 215) {
                 title = GetLocalLanguageTextValue(ZLPhotoBrowserAnimated);
